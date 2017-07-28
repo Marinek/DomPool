@@ -32,7 +32,7 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>server-rest-module</module>
+		
 		<module>server-mvc-module</module>
 		<module>server-core-module</module>
 	</modules>

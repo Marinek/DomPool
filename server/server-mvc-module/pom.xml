@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.mediapool</groupId>
-		<artifactId>server-core</artifactId>
+		<artifactId>server-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>server-mvc-module</artifactId>

@@ -1,20 +1,20 @@
-package de.mediapool.server.entities.users.domain;
+package de.mediapool.server.entities.doms.domain;
 
 import javax.persistence.Entity;
 
 import de.mediapool.server.core.domain.DBEntry;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
-@ToString
-public class UserRole extends DBEntry {
+public class DomColor extends DBEntry {
 
 	private static final long serialVersionUID = 1L;
 
-	private String title;
-
+	private String colorName;
+	
+	private String colorHex;
+	
 }

@@ -3,23 +3,21 @@ package de.mediapool.server.entities.users.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.neo4j.graphdb.Direction;
-import org.springframework.data.neo4j.annotation.Fetch;
-import org.springframework.data.neo4j.annotation.NodeEntity;
-import org.springframework.data.neo4j.annotation.RelatedTo;
-import org.springframework.data.neo4j.annotation.RelatedToVia;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import de.mediapool.server.core.domain.Node;
-import de.mediapool.server.entities.lists.domain.ProductList;
+import de.mediapool.server.core.domain.DBEntry;
 import lombok.Getter;
 import lombok.Setter;
 
-@NodeEntity
+@Entity
 @Getter
 @Setter
-public class User extends Node {
+public class User extends DBEntry {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,26 +25,16 @@ public class User extends Node {
 
 	@JsonIgnore
 	private String password;
+	
+	private String realName;
 
 	private Boolean isLocked = false;
 
-	@RelatedToVia(type = "OWNS", direction = Direction.OUTGOING)
-	@Fetch
-	private Set<OwnerRelationship> owendProducts;
-
-	@RelatedToVia(type = "FOLLOW", direction = Direction.OUTGOING)
-	private Set<FollowRelationship> followedUser;
-
-	@RelatedTo(type = "CREATED", direction = Direction.OUTGOING)
-	@Fetch
-	private Set<ProductList> createdLists;
-
-	@RelatedTo(type = "HAS_ROLE", direction = Direction.OUTGOING)
-	private @Fetch Set<UserRole> roles;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "id", cascade = CascadeType.ALL)
+	private Set<UserRole> roles;
 
 	public User(String username, String password) {
 		this(username, password, new HashSet<>(), false);
-		// this.addRole("User");
 	}
 
 	public User() {

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+</head>
+
+<body>
+	<div th:fragment="userDetail" th:if="${user}">
+		<div class="col-md-8">
+			<div class="page-header">
+				<h1>
+					[[${user.realName}]] <small><a href="./"
+						th:href="@{/edituseruct(id=${user.id})}"
+						class="glyphicon glyphicon-pencil"></a></small> <small><a
+						href="./" th:href="@{/removeuseruct(id=${user.id})}"
+						class="glyphicon glyphicon-remove" style="color: red"></a></small>
+				</h1>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

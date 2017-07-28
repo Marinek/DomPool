@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class Node extends GraphEntry {
+public abstract class Node extends DBEntry {
 
 	private static final long serialVersionUID = 1L;
 
