@@ -5,11 +5,11 @@
 <body>
 	<div th:fragment="content">
 		<script type="text/javascript">
-			function getProduct(id) {
+			function getDom(id) {
 				
-				var url = './product?id=' + id;
+				var url = './dom?id=' + id;
 				console.log(url);
-				$("#fragmentProduct").load(url);
+				$("#fragmentDom").load(url);
 			}
 		</script>
 
@@ -17,17 +17,18 @@
 			<div class="col-md-4">
 				<table class="table table-striped">
 					<tbody>
-						<tr th:each="product : ${products}">
+						<tr th:each="dom : ${doms}">
 							<td><span class="label label-default"
-								th:text="${{product.mediaType}}">MediaType</span></td>
+								th:text="${dom.number}">DOM Number</span></td>
 							<td><a href="#"
-								th:onclick="'javascript:getProduct(' + ${product.id} + ');'"
-								th:text="${{product.title}}">Link</a></td>
+								th:onclick="'javascript:getDom(' + ${dom.id} + ');'"
+								th:text="${(dom.Type != null ? dom.Type.typeName : '?') + ' - ' + (dom.Color != null ? dom.Color.colorName : '?')}">Dom</a></td>
+								<td th:text="${dom.Location}"></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div id="fragmentProduct"></div>
+			<div id="fragmentDom"></div>
 		</div>
 	</div>
 </body>

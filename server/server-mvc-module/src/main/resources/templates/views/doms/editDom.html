@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="content">
+		<form th:action="@{./editDom}" th:object="${dom}"
+			class="form-horizontal" method="post">
+			<fieldset>
+
+				<!-- Form Name -->
+				<legend>Neuen DOM erstellen</legend>
+				<input type="hidden" th:field="*{id}">
+			
+
+				<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="textinput">Nummer</label>
+					<div class="col-md-5">
+						<input th:field="*{number}" id="textinput" name="textinput"
+							placeholder="" class="form-control input-md" required="required"
+							type="text">
+
+					</div>
+				</div>
+				
+					<!-- Select Basic -->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="selectbasic">Marke</label>
+					<div class="col-md-5">
+						<select th:field="*{type}" id="selectbasic2"
+							name="selectbasic" class="form-control">
+							<option th:each="domType : ${domTypes}"
+                        th:value="${{domType}}" th:text="${domType.typeName}"></option>
+						</select>
+					</div>
+				</div>
+
+					<!-- Select Basic -->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="selectbasic">Farbe</label>
+					<div class="col-md-5">
+						<select th:field="*{color}" id="selectbasic"
+							name="selectbasic" class="form-control">
+							<option th:each="domColor : ${domColors}"
+                        th:value="${{domColor}}" th:text="${domColor.colorName}"></option>
+						</select>
+					</div>
+				</div>
+
+					<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="textinput">Ort</label>
+					<div class="col-md-5">
+						<input th:field="*{location}" id="textinput" name="textinput"
+							placeholder="" class="form-control input-md" required="required"
+							type="text">
+
+					</div>
+				</div>
+
+				<!-- Button -->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="singlebutton"></label>
+					<div class="col-md-4">
+						<button id="singlebutton" name="singlebutton"
+							class="btn btn-primary">Speichern</button>
+					</div>
+				</div>
+
+			</fieldset>
+		</form>
+
+	</div>
+</body>
+</html>

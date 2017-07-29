@@ -14,4 +14,9 @@ public class DomType extends DBEntry {
 	private static final long serialVersionUID = 1L;
 
 	private String typeName;
+	
+	@Override
+	public String toString() {
+		return typeName == null ? "" : typeName;
+	}
 }

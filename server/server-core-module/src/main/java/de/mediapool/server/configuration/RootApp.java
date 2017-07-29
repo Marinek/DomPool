@@ -2,19 +2,24 @@ package de.mediapool.server.configuration;
 
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.h2.tools.Server;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.format.Formatter;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -22,7 +27,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import de.mediapool.server.cache.CustomEhCacheCacheManager;
 
@@ -32,7 +37,10 @@ import de.mediapool.server.cache.CustomEhCacheCacheManager;
 @EnableJpaRepositories(basePackages="de.mediapool", entityManagerFactoryRef="entityManagerFactory") 
 @EnableCaching
 @ComponentScan("de.mediapool")
-public class RootApp extends WebMvcConfigurationSupport {
+public class RootApp extends WebMvcConfigurerAdapter {
+
+	@Autowired 
+	private ApplicationContext appCtx;
 
 	@Bean
 	public CacheManager cacheManager() {
@@ -45,6 +53,17 @@ public class RootApp extends WebMvcConfigurationSupport {
 		cmfb.setConfigLocation(new ClassPathResource("ehcache.xml"));
 		cmfb.setShared(true);
 		return cmfb;
+	}
+
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+		super.addFormatters(registry);
+
+		Map<String, Formatter> beansOfType = appCtx.getBeansOfType(Formatter.class);
+
+		for(Formatter<?> formatter : beansOfType.values()) {
+			registry.addFormatter(formatter);
+		}
 	}
 
 	@Bean

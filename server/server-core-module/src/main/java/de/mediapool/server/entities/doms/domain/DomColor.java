@@ -17,4 +17,8 @@ public class DomColor extends DBEntry {
 	
 	private String colorHex;
 	
+	@Override
+	public String toString() {
+		return colorName == null ? "" : colorName;
+	}
 }
