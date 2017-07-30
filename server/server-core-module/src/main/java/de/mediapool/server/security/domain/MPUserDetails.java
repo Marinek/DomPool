@@ -22,8 +22,6 @@ public class MPUserDetails extends User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
-	private String password;
-
 	private Collection<GrantedAuthority> authorities;
 
 	public MPUserDetails(User userNode) {
@@ -38,6 +36,7 @@ public class MPUserDetails extends User implements UserDetails {
 		for (UserRole userRole : getRoles()) {
 			authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole.getTitle()));
 		}
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 
 	@Override

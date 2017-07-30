@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,26 +14,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import de.mediapool.server.security.services.MPUserDetailsService;
-import de.mediapool.server.security.simple.controller.RESTAuthenticationEntryPoint;
-import de.mediapool.server.security.simple.controller.RESTAuthenticationFailureHandler;
-import de.mediapool.server.security.simple.controller.RESTAuthenticationSuccessHandler;
-
+ 
 @ComponentScan("de.mediapool.server")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 
 	private static final Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
-
-	@Autowired
-	private RESTAuthenticationEntryPoint authenticationEntryPoint;
-	@Autowired
-	private RESTAuthenticationFailureHandler authenticationFailureHandler;
-	@Autowired
-	private RESTAuthenticationSuccessHandler authenticationSuccessHandler;
 
 	/**
 	 * This section defines the user accounts which can be used for
@@ -73,7 +63,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 		//		http.formLogin().failureHandler(authenticationFailureHandler);
 		http.formLogin().loginPage("/login-page");
 		http.formLogin().failureUrl("/login-error");
-		http.logout().logoutUrl("/logout");
+		http.exceptionHandling().accessDeniedPage("/login-error");
+		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 		http.csrf();
 		http.rememberMe();
 	}

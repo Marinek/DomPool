@@ -1,6 +1,7 @@
 package de.mediapool.server.mvc.module.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import de.mediapool.server.entities.users.domain.User;
 import de.mediapool.server.entities.users.repository.UserRepository;
+import de.mediapool.server.security.domain.PreAuthorization;
 
 @Controller
 public class UserController {
@@ -19,6 +21,7 @@ public class UserController {
 
 
 	@RequestMapping(value="/editUser", method=RequestMethod.GET)
+	@PreAuthorize(PreAuthorization.ROLE_ADMIN)
 	public String editProductList(@RequestParam(name="id", required=false)Long productListId, Model model) {
 		if(productListId != null) {
 			model.addAttribute("user", userRepository.findOne(productListId));
