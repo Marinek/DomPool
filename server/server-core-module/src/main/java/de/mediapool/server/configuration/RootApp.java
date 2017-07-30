@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.format.Formatter;
@@ -36,6 +37,7 @@ import de.mediapool.server.cache.CustomEhCacheCacheManager;
 @Configuration
 @EnableJpaRepositories(basePackages="de.mediapool", entityManagerFactoryRef="entityManagerFactory") 
 @EnableCaching
+@Import(ServerConfigurationFactoryPopulator.class)
 @ComponentScan("de.mediapool")
 public class RootApp extends WebMvcConfigurerAdapter {
 
@@ -46,7 +48,7 @@ public class RootApp extends WebMvcConfigurerAdapter {
 	public CacheManager cacheManager() {
 		return new CustomEhCacheCacheManager(ehCacheCacheManager().getObject());
 	}
-
+	
 	@Bean
 	public EhCacheManagerFactoryBean ehCacheCacheManager() {
 		EhCacheManagerFactoryBean cmfb = new EhCacheManagerFactoryBean();

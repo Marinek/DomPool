@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import de.mediapool.server.configuration.TestConfig;
 import de.mediapool.server.entities.doms.domain.Dom;
 import de.mediapool.server.entities.doms.repository.DomColorRespository;
 import de.mediapool.server.entities.doms.repository.DomRepository;
@@ -29,6 +30,9 @@ public class DomController {
 	@Autowired
 	private DomColorRespository domColorRepository;
 
+	@Autowired
+	private TestConfig config;
+
 
 	@RequestMapping(value="/editDom", method=RequestMethod.GET) 
 	@PreAuthorize(PreAuthorization.ROLE_USER)
@@ -41,6 +45,7 @@ public class DomController {
 		
 		model.addAttribute("domTypes", domTypeRepository.findAll());
 		model.addAttribute("domColors", domColorRepository.findAll());
+		model.addAttribute("bla", config.getHello());
 
 		return "views/doms/editDom";
 	}
